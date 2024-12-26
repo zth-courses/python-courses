@@ -242,16 +242,98 @@ print(f"平均分：{average}")
 
 # 7. 类的定义
 class Student:
+    # 构造函数
     def __init__(self, name, age):
         self.name = name
         self.age = age
-    
+
+    # 实例方法    
     def introduce(self):
         return f"我叫{self.name}，今年{self.age}岁"
 
 # 类的使用
 student1 = Student("小华", 16)
 print(student1.introduce())
+
+# 类属性和实例属性
+class Student:
+    # 类属性（所有实例共享）
+    school = "第一中学"
+    
+    def __init__(self, name, age):
+        # 实例属性（每个实例独有）
+        self.name = name
+        self.age = age
+    
+    def get_info(self):
+        return f"{self.name}来自{self.school}"
+
+# 访问类属性
+print(Student.school)  # 输出：第一中学
+
+# 访问实例属性
+student = Student("小红", 17)
+print(student.name)  # 输出：小红
+
+# 私有属性和方法
+class Student:
+    def __init__(self, name, score):
+        self.name = name
+        self.__score = score  # 私有属性
+    
+    def __calculate_grade(self):  # 私有方法
+        if self.__score >= 90:
+            return "A"
+        elif self.__score >= 60:
+            return "B"
+        return "C"
+    
+    def get_grade(self):
+        return f"{self.name}的等级是{self.__calculate_grade()}"
+
+student = Student("小华", 95)
+print(student.get_grade())  # 输出：小华的等级是A
+# print(student.__score)  # 错误：无法直接访问私有属性
+
+# class继承
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+    
+    def introduce(self):
+        return f"我是{self.name}"
+
+class Student(Person):
+    def __init__(self, name, age, grade):
+        super().__init__(name, age)  # 调用父类构造函数
+        self.grade = grade
+    
+    def introduce(self):  # 重写父类方法
+        return f"{super().introduce()}，我在{self.grade}年级"
+
+student = Student("小明", 15, "初三")
+print(student.introduce())  # 输出：我是小明，我在初三年级
+
+# 类方法和静态方法
+class Student:
+    count = 0  # 类属性
+    
+    def __init__(self, name):
+        self.name = name
+        Student.count += 1
+    
+    @classmethod
+    def get_student_count(cls):  # 类方法
+        return f"当前学生数量：{cls.count}"
+    
+    @staticmethod
+    def is_adult(age):  # 静态方法
+        return age >= 18
+
+# 使用类方法和静态方法
+print(Student.get_student_count())  # 输出：当前学生数量：0
+print(Student.is_adult(20))  # 输出：True
 
 # 8. 异常处理
 try:
